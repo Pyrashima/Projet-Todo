@@ -1,10 +1,29 @@
 import constants from '../constants';
+import authObserver, { todoEvent } from '.auth-observer';
 
 class AuthService {
     url = `${constants.apiUrl}` / user;
     apiKey = constants.apiKey;
     tokenKey = "jwt-token";
     userIdKey = "user-id";
+
+    todoObserver = todoObserver;
+    events = todoEvent;
+
+    // Singleton
+    static instance = null;
+
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new this();
+        }
+        return this.instance;
+    }
+    myData = {}
+    updateData(data) {
+        this.myData = data;
+    }
+
 
     getUserId() {
         return localStorage.getItem(this.userIdKey);
@@ -94,6 +113,7 @@ class AuthService {
         this.clearToken();
         this.clearUserId();
     }
+
 
 }
 
